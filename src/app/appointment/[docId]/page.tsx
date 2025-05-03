@@ -130,15 +130,15 @@ const AppointmentsPage = () => {
   }, [docInfo]);
 
   return (
-    <>
-      {loading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-75 z-50">
-          <Loader className="animate-spin text-primary w-16 h-16" />
-        </div>
-      )}
+    <div className='relative'>
+        
 
       {docInfo && (
+
+      <div>
+              
         <div className={`${loading ? 'opacity-45' : ''}`}>
+                
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Doctor Image */}
             <div>
@@ -178,6 +178,11 @@ const AppointmentsPage = () => {
               </p>
             </div>
           </div>
+                 {loading && (
+                    <div className=" flex items-center justify-center bg-gray-100 bg-opacity-5 z-50">
+                       <Loader className="animate-spin text-primary w-16 h-16" />
+                    </div>
+                 )}
 
           {/* Slot Selection */}
           <div className="sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700">
@@ -226,8 +231,9 @@ const AppointmentsPage = () => {
           {/* Related Doctors */}
           <RealtedDoctors docId={docId} speciality={docInfo.speciality} />
         </div>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
