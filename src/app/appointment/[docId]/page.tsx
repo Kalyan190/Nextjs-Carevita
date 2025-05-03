@@ -143,7 +143,7 @@ const AppointmentsPage = () => {
             {/* Doctor Image */}
             <div>
               <img
-                className="bg-primary w-full sm:max-w-72 rounded-lg"
+                className="bg-gray-100 w-full sm:max-w-72 rounded-lg"
                 src={docInfo.image}
                 alt="Doctor"
               />
@@ -182,7 +182,7 @@ const AppointmentsPage = () => {
           {/* Slot Selection */}
           <div className="sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700">
             <p>Booking slots</p>
-            <div className="flex gap-3 items-center w-full overflow-x-scroll mt-4">
+            <div className="flex gap-3 items-center w-full max-sm:overflow-x-scroll mt-4">
               {docSlots.length > 0 &&
                 docSlots.map((item, index) => (
                   <div
@@ -217,7 +217,7 @@ const AppointmentsPage = () => {
             </div>
             <button
               onClick={bookAppointment}
-              className="bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6"
+                    className="bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6 "
             >
               Book an appointment
             </button>
