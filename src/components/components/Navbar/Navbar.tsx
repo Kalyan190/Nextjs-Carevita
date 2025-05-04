@@ -18,7 +18,8 @@ const Navbar = () => {
       router.push('/')
       setToken(null);
       if (typeof window !== 'undefined') {
-         localStorage.removeItem('token')
+         localStorage.removeItem('token') 
+         localStorage.removeItem('userId')
       }
    }
    // console.log("token: ",token)

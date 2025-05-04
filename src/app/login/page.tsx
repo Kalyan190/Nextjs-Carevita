@@ -27,6 +27,8 @@ const Login = () => {
       if (data.success) {
         toast.success(data.message)
         localStorage.setItem('token', data.token)
+        console.log(data)
+        localStorage.setItem('userId', data.user._id)
         setToken(data.token)
         router.push('/')
       } else {
