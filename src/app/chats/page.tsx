@@ -12,8 +12,14 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<any[]>([])
   const [newMessage, setNewMessage] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
-
-  const userId = localStorage.getItem('userId') // or userId
+  const [userId, setUserId] = useState<string | null>(null)
+ 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+        const userId = localStorage.getItem('userId') // or userId
+        setUserId(userId)
+    }
+  }, []);
 
   useEffect(() => {
     if (userId) {
