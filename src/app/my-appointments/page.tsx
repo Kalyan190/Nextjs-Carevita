@@ -5,6 +5,8 @@ import { AppContext } from '@/context/AppContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Loader } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const MyAppointments = () => {
    const { backendUrl, token, getAllDoctorsData, loading, setLoading } = useContext(AppContext);
@@ -106,6 +108,7 @@ const MyAppointments = () => {
                               >
                                  Cancel Appointment
                               </button>
+                              <Link href={`/chats`}><Button className='w-full cursor-pointer'>Talk to Doctor</Button></Link>
                            </>
                         )}
                         {item.cancelled && !item.isComplete && (
