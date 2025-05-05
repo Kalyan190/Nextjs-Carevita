@@ -4,11 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import io from 'socket.io-client'
 
-<<<<<<< HEAD
 const socket = io(`${ process.env.NEXT_PUBLIC_BACKEND_URL }`) // Update for prod
-=======
-const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL!) // Update for prod
->>>>>>> 41bc3270dd9ad657fd65b8a87ca582eb500581a3
 
 export default function ChatPage() {
   const [conversations, setConversations] = useState<any[]>([])
