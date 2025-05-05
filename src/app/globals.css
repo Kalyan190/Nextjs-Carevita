@@ -123,3 +123,59 @@
     display: none;
   }
 }
+/* === Custom Scrollbar (WebKit) === */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--primary-light), 0.3);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--primary-light), 0.5);
+}
+
+/* === Firefox Scrollbar === */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--primary-light), 0.3) transparent;
+}
+
+/* === Mobile Input Stickiness === */
+@media (max-width: 768px) {
+  .fixed-bottom {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  .chat-container {
+    height: calc(100vh - 120px);
+    max-height: calc(100vh - 120px);
+  }
+}
+
+/* === Gradient Animation Utility === */
+.gradient-animate {
+  background-size: 200% 200%;
+  animation: gradient 5s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
