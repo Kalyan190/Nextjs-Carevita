@@ -64,7 +64,7 @@ const MyAppointments = () => {
    }, [token]);
 
    return (
-      <div className='relative'>
+      <div className='relative min-h-screen'>
          
 
          <div className={`${loading ? 'opacity-45' : ''}`}>
