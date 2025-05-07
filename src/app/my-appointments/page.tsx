@@ -36,7 +36,7 @@ const MyAppointments = () => {
             currency: "INR",
             name: "CareVita",
             description: "Appointment Payment",
-            image: "/logo.png", // optional logo
+            image: "/logo.svg", // optional logo
             order_id: data.orderId,
             handler: async function (response: any) {
                try {
