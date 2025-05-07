@@ -17,6 +17,65 @@ const MyAppointments = () => {
       const DateArray = slotDate.split('_');
       return DateArray[0] + " " + months[Number(DateArray[1])] + " " + DateArray[2];
    };
+   const handlePayment = async (appointmentId: string) => {
+      console.log(appointments[0]);
+      try {
+         setLoading(true);
+         const { data } = await axios.post(`${backendUrl}/api/doctor/payment/create`, { appointmentId }, {
+            headers: { token }
+         });
+         console.log(data);
+         if (!data.success) {
+            toast.error("Failed to initiate payment");
+            return;
+         }
+
+         const options = {
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // from .env
+            amount: data.amount,
+            currency: "INR",
+            name: "CareVita",
+            description: "Appointment Payment",
+            image: "/logo.png", // optional logo
+            order_id: data.orderId,
+            handler: async function (response: any) {
+               try {
+                  const verifyRes = await axios.post(`${backendUrl}/api/doctor/payment/verify`, {
+                     ...response,
+                     appointmentId,
+                  }, { headers: { token } });
+
+                  if (verifyRes.data.success) {
+                     toast.success("Payment Successful");
+                     getUserAppointment();
+                     getAllDoctorsData();
+                  } else {
+                     toast.error("Payment verification failed");
+                  }
+               } catch (error: any) {
+                  console.error(error);
+                  toast.error(error?.message || 'Payment failed');
+               }
+            },
+            prefill: {
+               name: "User",
+               email: "user@example.com",
+               contact: "9999999999",
+            },
+            theme: {
+               color: "#6366f1",
+            },
+         };
+
+         const rzp = new (window as any).Razorpay(options);
+         rzp.open();
+      } catch (err: any) {
+         console.error(err);
+         toast.error(err?.message || "Something went wrong");
+      } finally {
+         setLoading(false);
+      }
+   };
 
    const getUserAppointment = async () => {
       try {
@@ -65,10 +124,10 @@ const MyAppointments = () => {
 
    return (
       <div className='relative min-h-screen'>
-         
+
 
          <div className={`${loading ? 'opacity-45' : ''}`}>
-            
+
             <p className='pb-3 font-medium text-zinc-700 border-b'>My appointments</p>
             <div>
                {loading && (
@@ -95,9 +154,10 @@ const MyAppointments = () => {
                         </p>
                      </div>
                      <div className='flex flex-col gap-2 justify-end'>
-                        {!item.cancelled && !item.isComplete && (
+                        {!item.isPaid && !item.paymentId ? (
                            <>
                               <button
+                                 onClick={() => handlePayment(item._id)}
                                  className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300 cursor-pointer'
                               >
                                  Pay Online
@@ -110,7 +170,11 @@ const MyAppointments = () => {
                               </button>
                               <Link href={`/chats`}><Button className='w-full cursor-pointer'>Talk to Doctor</Button></Link>
                            </>
-                        )}
+                        ) : <>
+                           <button className='sm:min-w-48 py-2 border border-red-500 rounded text-red-500'>
+                              Booking Confirmed
+                           </button>
+                        </>}
                         {item.cancelled && !item.isComplete && (
                            <button className='sm:min-w-48 py-2 border border-red-500 rounded text-red-500'>
                               Appointment Cancelled
