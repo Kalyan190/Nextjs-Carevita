@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from "react"
 import axios from "axios"
 import io from "socket.io-client"
-import { Send, Smile, Search, MessageCircle } from "lucide-react"
+import { Send, Smile, Search, MessageCircle, Video } from "lucide-react"
+import Link from "next/link"
 
-const socket = io(`${ process.env.NEXT_PUBLIC_BACKEND_URL }`) // Update for prod
+const socket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`) // Update for prod
 
 export default function ChatPage() {
   const [conversations, setConversations] = useState<any[]>([])
@@ -116,9 +117,8 @@ export default function ChatPage() {
             conversations.map((conv) => (
               <div
                 key={conv._id}
-                className={`flex items-center p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-100 transition-colors ${
-                  selectedConversation?._id === conv._id ? "bg-gray-100" : ""
-                }`}
+                className={`flex items-center p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-100 transition-colors ${selectedConversation?._id === conv._id ? "bg-gray-100" : ""
+                  }`}
                 onClick={() => setSelectedConversation(conv)}
               >
                 <div className="w-12 h-12 rounded-full overflow-hidden mr-3 flex-shrink-0 border">
@@ -167,12 +167,23 @@ export default function ChatPage() {
                   <p className="text-xs text-gray-500">online</p>
                 </div>
               </div>
-              <button
-                className="p-2 rounded-full hover:bg-gray-200 transition-colors"
-                aria-label="Search in conversation"
-              >
-                <Search size={20} />
-              </button>
+              <div className="">
+                <button
+                  className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+                  aria-label="Search in conversation"
+                >
+                  <Search size={20} />
+                </button>
+                <Link
+                  target="_blank"
+                  href={`https://comfront.vercel.app/meeting/${selectedConversation.other.userId}`}
+                  aria-label="Search in conversation"
+                >
+                  <button className="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    <Video size={20} />
+                  </button>
+                </Link>
+              </div>
             </div>
 
             {/* Chat Messages Area */}
@@ -206,17 +217,15 @@ export default function ChatPage() {
 
                     <div className={`flex ${isCurrentUser ? "justify-end" : "justify-start"} mb-3`}>
                       <div
-                        className={`relative max-w-[65%] px-4 py-3 rounded-2xl shadow-sm ${
-                          isCurrentUser
+                        className={`relative max-w-[65%] px-4 py-3 rounded-2xl shadow-sm ${isCurrentUser
                             ? "bg-gray-200 text-gray-900 rounded-br-none"
                             : "bg-white text-gray-800 rounded-bl-none"
-                        }`}
+                          }`}
                       >
                         <p className="text-sm whitespace-pre-wrap break-words">{msg.text}</p>
                         <div
-                          className={`text-[11px] ${
-                            isCurrentUser ? "text-gray-500" : "text-gray-400"
-                          } text-right mt-1`}
+                          className={`text-[11px] ${isCurrentUser ? "text-gray-500" : "text-gray-400"
+                            } text-right mt-1`}
                         >
                           {formatTime(msg.createdAt)}
                           {isCurrentUser && <span className="ml-1">✓</span>}
@@ -251,11 +260,10 @@ export default function ChatPage() {
                 onClick={sendMessage}
                 disabled={!newMessage.trim()}
                 aria-label="Send message"
-                className={`p-3 rounded-full transition-colors ${
-                  newMessage.trim()
+                className={`p-3 rounded-full transition-colors ${newMessage.trim()
                     ? "bg-gray-800 text-white hover:bg-gray-700"
                     : "text-gray-400 bg-gray-100"
-                }`}
+                  }`}
               >
                 <Send size={20} />
               </button>
