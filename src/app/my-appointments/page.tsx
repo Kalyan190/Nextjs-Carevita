@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const MyAppointments = () => {
   const { backendUrl, token, getAllDoctorsData, loading, setLoading } =
@@ -151,7 +152,7 @@ const MyAppointments = () => {
     }
   }, [token]);
 
-  return (
+    return (
     <div className="relative min-h-screen">
       <div className={`${loading ? "opacity-45" : ""}`}>
         <p className="pb-3 font-medium text-zinc-700 border-b">
@@ -189,6 +190,7 @@ const MyAppointments = () => {
                   </span>{" "}
                   {slotDateFormat(item.slotDate)} | {item.slotTime}
                 </p>
+              <button onClick={()=>redirect('/my-appointments/prescriptions')} className="bg-green-500 px-4 py-2 rounded-xl text-white mt-2 font-bold cursor-pointer">View available prescriptions</button>
               </div>
               <div className="flex flex-col gap-2 justify-end">
                 {!item.isPaid && !item.paymentId ? (
