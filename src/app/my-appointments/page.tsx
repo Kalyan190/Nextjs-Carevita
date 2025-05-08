@@ -10,8 +10,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const MyAppointments = () => {
-  const { backendUrl, token, getAllDoctorsData, loading, setLoading } =
-    useContext(AppContext);
+  const { backendUrl, token, getAllDoctorsData, loading, setLoading } = useContext(AppContext);
   const [appointments, setAppointments] = useState([]);
 
   const months = [
@@ -152,12 +151,19 @@ const MyAppointments = () => {
     }
   }, [token]);
 
+  const handleButton = ()=>{
+    redirect('/my-appointments/prescriptions');
+  }
+
     return (
+        !appointments.length ? <div>No appointments for you currently !</div> : 
     <div className="relative min-h-screen">
       <div className={`${loading ? "opacity-45" : ""}`}>
-        <p className="pb-3 font-medium text-zinc-700 border-b">
-          My appointments
-        </p>
+        <div className="pb-3 font-medium text-zinc-700 border-b flex justify-around items-center">
+          <p className="text-xl">My appointments</p>
+        <button onClick={handleButton} className="bg-green-500 px-4 py-2 rounded-xl text-white mt-2 font-bold cursor-pointer hover:bg-green-400">View all available prescriptions</button>
+        </div>
+
         <div>
           {loading && (
             <div className="fixed inset-0 flex items-center justify-center  bg-opacity-15 z-50">
@@ -190,7 +196,6 @@ const MyAppointments = () => {
                   </span>{" "}
                   {slotDateFormat(item.slotDate)} | {item.slotTime}
                 </p>
-              <button onClick={()=>redirect('/my-appointments/prescriptions')} className="bg-green-500 px-4 py-2 rounded-xl text-white mt-2 font-bold cursor-pointer">View available prescriptions</button>
               </div>
               <div className="flex flex-col gap-2 justify-end">
                 {!item.isPaid && !item.paymentId ? (

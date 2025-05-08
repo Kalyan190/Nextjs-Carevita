@@ -6,6 +6,9 @@ import { toast } from "react-toastify";
 export interface Doctor {
   [key: string]: any;
 }
+export interface myDoctor {
+  [key: string]: any;
+}
 
 export interface UserData {
   [key: string]: any;
@@ -36,7 +39,8 @@ export const AppContext = createContext<AppContextType>({
   setUserData: () => {},
   loadUserProfileData: async () => {},
   loading: false,
-  setLoading: () => {},
+  setLoading: () => {}
+  
 });
 
 export const AppContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -109,11 +113,12 @@ export const AppContextProvider: React.FC<{ children: ReactNode }> = ({ children
       }
     } catch (error: any) {
       console.error(error);
-      toast.error(error.message || "Failed to load doctors");
+      // toast.error(error.message || "Failed to load doctors");
     } finally {
       setLoading(false);
     }
   };
+
 
   useEffect(() => {
     getAllDoctorsData();
